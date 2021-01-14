@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>PaperJS サンプル</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./css/style.css">
+    <!-- Load the Paper.js library -->
+    <script type="text/javascript" src="./js/paper-full.js"></script>
+    <!-- Load external PaperScript and associate it with whiteboardCanvas -->
+    <script type="text/javascript" src="./js/whiteboard.purejs.js" canvas="whiteboardCanvas"></script>
+    <script type="text/javascript">
+        // Only executed our code once the DOM is ready.
+        window.onload = function () {
+            // Get a reference to the canvas object
+            let whiteboardCanvas = document.getElementById("whiteboardCanvas");
+            let selectCanvas = document.getElementById("selectCanvas");
+            let workingCanvas = document.getElementById("workingCanvas");
+
+            function touchStart(ev) {
+                console.log("touchStart");
+                onWhiteboardTouchStart(ev);
+            }
+
+            function touchMove(ev) {
+                //console.log("touchMove");
+                onWhiteboardTouchMove(ev);
+            }
+
+            function touchEnd(ev){
+                console.log("touchEnd");
+                onWhiteboardTouchEnd(ev);
+            }
+
+            let whiteboardElm = document.getElementById("whiteboard");
+            //whiteboardElm.addEventListener("touchstart", touchStart, false);
+            //whiteboardElm.addEventListener("touchmove", touchMove, false);
+            //whiteboardElm.addEventListener("touchend", touchEnd, false);
+            
+            //Pointer Event
+            whiteboardElm.addEventListener("pointerdown", handleStart, false);
+            whiteboardElm.addEventListener("pointermove", handleMove, false);
+            whiteboardElm.addEventListener("pointerup", handleEnd, false);
+
+            whiteboardStart(whiteboardCanvas, selectCanvas, workingCanvas);
+        }
+        function onDrawModeChanged() {
+            if (document.getElementById("rbEraseByStroke").checked) {
+                changeDrawMode("EraseByStroke");
+            } else if (document.getElementById("rbEraseByPoint").checked) {
+                changeDrawMode("EraseByPoint");
+            } else if (document.getElementById("rbEraseByBigPoint").checked) {
+                changeDrawMode("EraseByBigPoint");
+            } else if (document.getElementById("rbSelectByDrag").checked) {
+                changeDrawMode("SelectByDrag");
+            } else if (document.getElementById("rbSelectByPoint").checked) {
+                changeDrawMode("SelectByPoint");
+            } else {
+                changeDrawMode("Draw");
+            }
+            changeDrawMode(drawMode);
+        }
+    </script>
+</head>
+<body>
+    <p>Draw Mode</p>
+    <div id="drawMode">
+        <input type="radio" id="rbDraw" name="drawMode" onchange="onDrawModeChanged()" checked="checked" /><label for="rbDraw">Draw</label>
+        <input type="radio" id="rbEraseByStroke" name="drawMode" onchange="onDrawModeChanged()" /><label for="rbEraseByStroke">Erase by Stroke</label>
+        <input type="radio" id="rbEraseByPoint" name="drawMode" onchange="onDrawModeChanged()" /><label for="rbEraseByPoint">Erase by Point</label>
+        <input type="radio" id="rbEraseByBigPoint" name="drawMode" onchange="onDrawModeChanged()" /><label for="rbEraseByBigPoint">Erase by Big Point</label>
+        <input type="radio" id="rbSelectByDrag" name="drawMode" onchange="onDrawModeChanged()" /><label for="rbSelectByDrag">Select by Drag</label>
+        <input type="radio" id="rbSelectByPoint" name="drawMode" onchange="onDrawModeChanged()" /><label for="rbSelectByPoint">Select by Point</label>
+    </div>
+    <div id='whiteboard' style="position: absolute">
+        <canvas id="whiteboardCanvas" width="1920" height="1080" style="position: absolute; z-index: 10; touch-action:none"></canvas>
+        <canvas id="selectCanvas" width="1920" height="1080" style="position: absolute; z-index: 0" visibility: hidden"></canvas>
+        <canvas id="workingCanvas" width="1920" height="1080" style="position: absolute; z-index: 0"></canvas>
+    </div>
+</body>
+</html>
