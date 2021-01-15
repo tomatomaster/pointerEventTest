@@ -477,10 +477,11 @@ var ongoingTouches = new Array(0);
 function handleStart(evt) {
   console.log("pointerdown.");
   console.log("pointerdown: id = " + evt.pointerId);
+  var randomColor = "rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")" ;
   let point = paperWb.view.getEventPoint(evt);
   let path = new paper.Path({
       segments: [point],
-      strokeColor: 'red',
+      strokeColor: randomColor,
       strokeWidth: 5,
       fullySelected: false,
       visible: true
