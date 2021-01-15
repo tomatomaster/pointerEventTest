@@ -19,7 +19,8 @@ var touchId2Path;
 var isTouchEnabled = true;
 var isTouching = false;
 
-var ongoingTouches = new Array();
+// PointEvent Test
+var statusMessage;
 
 function whiteboardStart(wbCanvas, selectCanvas, workingCanvas) {
 
@@ -63,6 +64,11 @@ function whiteboardStart(wbCanvas, selectCanvas, workingCanvas) {
         fillColor: 'black'
     });
 
+    statusMessage = new paper.PointText({
+        content: 'Status',
+        point: new paper.Point(20, 50),
+        fillColor: 'red'
+    });
 }
 
 // onWhiteboardTouchStart()���onWhiteboardMouseDown()�̕�����ɌĂ΂�悤���i�u���E�U�ˑ��̉\������j
@@ -471,7 +477,6 @@ var ongoingTouches = new Array(0);
 function handleStart(evt) {
   console.log("pointerdown.");
   console.log("pointerdown: id = " + evt.pointerId);
-  ongoingTouches.push(copyTouch(evt));
   let point = paperWb.view.getEventPoint(evt);
   let path = new paper.Path({
       segments: [point],
@@ -488,8 +493,12 @@ function handleStart(evt) {
 
 
 function handleMove(evt) {
-    var idx = ongoingTouchIndexById(evt.pointerId);
-    if (idx >= 0) {
+    if (touchId2Path == null || touchId2Path[evt.pointerId] == null) {
+        return;
+    }
+    console.log(evt);    
+    statusMessage.content = `${evt.pointerId}`
+    if (touchId2Path) {
         let path = touchId2Path[evt.pointerId];
         let point = paperWb.view.getEventPoint(evt);
         path.add(point);
@@ -501,32 +510,17 @@ function handleMove(evt) {
 
 function handleEnd(evt) {
     console.log("pointerup");
-    var idx = ongoingTouchIndexById(evt.pointerId);
-    if (idx >= 0) {
+    if (touchId2Path) {
             let path = touchId2Path[evt.pointerId];
             paths.push(path);
             delete touchId2Path[evt.pointerId];
     } else {
       log("can't figure out which touch to end");
     }
-
-    if (ongoingTouches.length == 0) {
+    console.log(touchId2Path);
+    if (Object.keys(touchId2Path).length == 0) {
+        console.log('Nobody touch canvas.');
         touchId2Path = null;
         isTouching = false;
     }
-} 
-
-function copyTouch(touch) {
-    return { identifier: touch.pointerId, pageX: touch.clientX, pageY: touch.clientY };
-} 
-
-function ongoingTouchIndexById(idToFind) {
-    for (var i = 0; i < ongoingTouches.length; i++) {
-      var id = ongoingTouches[i].identifier;
-      
-      if (id == idToFind) {
-        return i;
-      }
-    }
-    return -1;    // not found
 } 
