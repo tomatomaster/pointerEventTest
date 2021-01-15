@@ -65,7 +65,7 @@ function whiteboardStart(wbCanvas, selectCanvas, workingCanvas) {
     });
 
     statusMessage = new paper.PointText({
-        content: 'Status',
+        content: 'Touch IDs',
         point: new paper.Point(20, 50),
         fillColor: 'red'
     });
@@ -488,6 +488,7 @@ function handleStart(evt) {
   if (touchId2Path == null) {
     touchId2Path = new Object();
   }
+  ongoingTouches.push(evt.pointerId);
   touchId2Path[evt.pointerId] = path;
 } 
 
@@ -497,7 +498,7 @@ function handleMove(evt) {
         return;
     }
     console.log(evt);    
-    statusMessage.content = `${evt.pointerId}`
+    statusMessage.content = `${ongoingTouches}`
     if (touchId2Path) {
         let path = touchId2Path[evt.pointerId];
         let point = paperWb.view.getEventPoint(evt);
@@ -522,5 +523,19 @@ function handleEnd(evt) {
         console.log('Nobody touch canvas.');
         touchId2Path = null;
         isTouching = false;
-    }
+    }    
+    var idx = ongoingTouchIndexById(evt.pointerId);
+    ongoingTouches.splice(idx, 1);  // remove it; we're done
+    statusMessage.content = `${ongoingTouches}`
 } 
+
+function ongoingTouchIndexById(idToFind) {
+    for (var i = 0; i < ongoingTouches.length; i++) {
+      var id = ongoingTouches[i].identifier;
+      
+      if (id == idToFind) {
+        return i;
+      }
+    }
+    return -1;    // not found
+  } 
