@@ -479,10 +479,11 @@ function handleStart(evt) {
   console.log("pointerdown: id = " + evt.pointerId);
   var randomColor = "rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")" ;
   let point = paperWb.view.getEventPoint(evt);
+  var strokeWidth = evt.pressure * 10;
   let path = new paper.Path({
       segments: [point],
       strokeColor: randomColor,
-      strokeWidth: 5,
+      strokeWidth: strokeWidth,
       fullySelected: false,
       visible: true
   });
