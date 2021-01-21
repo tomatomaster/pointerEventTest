@@ -71,6 +71,7 @@
         <input type="radio" id="rbSelectByDrag" name="drawMode" onchange="onDrawModeChanged()" /><label for="rbSelectByDrag">Select by Drag</label>
         <input type="radio" id="rbSelectByPoint" name="drawMode" onchange="onDrawModeChanged()" /><label for="rbSelectByPoint">Select by Point</label>
     </div>
+    <input type="checkbox" id="console" checked="checked" onchange="setMoveEventLogFlag(this.value)"> Show move event on console.log
     <div id='whiteboard' style="position: absolute">
         <canvas id="whiteboardCanvas" width="1920" height="1080" style="position: absolute; z-index: 10; touch-action:none"></canvas>
         <canvas id="selectCanvas" width="1920" height="1080" style="position: absolute; z-index: 0" visibility: hidden"></canvas>

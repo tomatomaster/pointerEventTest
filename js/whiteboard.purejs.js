@@ -499,7 +499,9 @@ function handleMove(evt) {
     if (touchId2Path == null || touchId2Path[evt.pointerId] == null) {
         return;
     }
-    console.log(evt);    
+    if(showMoveLog) {
+        console.log(evt);    
+    }    
     statusMessage.content = `${ongoingTouches}`
     if (touchId2Path) {
         let path = touchId2Path[evt.pointerId];
@@ -510,6 +512,15 @@ function handleMove(evt) {
       console.log("can't figure out which touch to continue: idx = " + idx);
     }
 } 
+
+var showMoveLog = true;
+function setMoveEventLogFlag(value) {
+    if(document.getElementById("console").checked) {
+        showMoveLog = true;
+    } else {
+        showMoveLog = false;
+    } 
+}
 
 function handleEnd(evt) {
     console.log("pointerup");
