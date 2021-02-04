@@ -475,8 +475,8 @@ function isInRegion(targetPath, regionPath) {
 var ongoingTouches = new Array(0);
 
 function handleStart(evt) {
-  console.log("pointerdown.");
-  console.log("pointerdown: id = " + evt.pointerId);
+  //console.log("pointerdown.");
+  //console.log("pointerdown: id = " + evt.pointerId);
   var randomColor = "rgb(" + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ", " + (~~(256 * Math.random())) + ")" ;
   let point = paperWb.view.getEventPoint(evt);
   var strokeWidth = (evt.pressure*4 + 0.5) * 5;
