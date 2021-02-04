@@ -12,18 +12,9 @@
         // Only executed our code once the DOM is ready.
         window.onload = function () {
             // Get a reference to the canvas object
-            let whiteboardCanvas = document.getElementById("whiteboardCanvas").getContext("bitmaprenderer");
+            let whiteboardCanvas = document.getElementById("whiteboardCanvas");
             let selectCanvas = document.getElementById("selectCanvas");
-            let workingCanvas = document.getElementById("workingCanvas").getContext("bitmaprenderer");
-
-            var offscreen = new OffscreenCanvas(1920, 1080);
-            var gl = offscreen.getContext('webgl');
-
-            var bitmapOne = offscreen.transferToImageBitmap();
-            whiteboardCanvas.transferFromImageBitmap(bitmapOne);
-
-            var bitmapTwo = offscreen.transferToImageBitmap();
-            workingCanvas.transferFromImageBitmap(bitmapTwo);
+            let workingCanvas = document.getElementById("workingCanvas");
 
             function touchStart(ev) {
                 console.log("touchStart");
